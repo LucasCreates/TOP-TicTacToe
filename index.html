@@ -15,37 +15,54 @@
             </div>
             <dialog>
                 <p>Select your marker</p>
+                <button class="close">X</button>
                 <form method="dialog">
                     <div class="form-input">
                         <div>
                             <label for="name">Player One Name</label>
-                            <input type="text" id="name" name="name">
+                            <input data-player-one type="text" id="name" name="name">
                         
                         </div>
                         <div>
                             <label for="name">Player Two Name</label>
-                            <input type="text" id="name" name="name">
+                            <input data-player-two type="text" id="name" name="name">
                         </div>
                     </div>
                     <div class="marker-c">
-                        <button class="markers cross">X</button>
-                        <button class="markers circle">O</button>
+                        <button type="button" class="markers cross" value="X">X</button>
+                        <button type="button" class="markers circle" value="O">O</button>
                     </div>
+                    <button type="submit" class="confirm">Start</button>
                     
                 </form>
             </dialog>
-
             <div class="game-container">
-                <div data-index-number="a0" class="square"></div>
-                <div data-index-number="a1" class="square"></div>
-                <div data-index-number="a2" class="square"></div>
-                <div data-index-number="b0" class="square"></div>
-                <div data-index-number="b1" class="square"></div>
-                <div data-index-number="b2" class="square"></div>
-                <div data-index-number="c0" class="square"></div>
-                <div data-index-number="c1" class="square"></div>
-                <div data-index-number="c2" class="square"></div>
+                <div class="players player-1">
+                    <h3>Player One</h3>
+                    <h1 class="p1-name">NAME</h1>
+                    <p class="p1-marker">X</p>
+                </div>
+                <div class="board-container">
+                    <div data-index-number="a0" class="square"></div>
+                    <div data-index-number="a1" class="square"></div>
+                    <div data-index-number="a2" class="square"></div>
+                    <div data-index-number="b0" class="square"></div>
+                    <div data-index-number="b1" class="square"></div>
+                    <div data-index-number="b2" class="square"></div>
+                    <div data-index-number="c0" class="square"></div>
+                    <div data-index-number="c1" class="square"></div>
+                    <div data-index-number="c2" class="square"></div>
+                </div>
+                <div class="players player-2">
+                    <h3>Player Two</h3>
+                    <h1 data-name class="p2-name">NAME</h1>
+                    <p data-marker class="p2-marker">O</p>
+                </div>
+    
             </div>
+            
+
+
             <div>
                 <button class="reset">Reset</button>
             </div>

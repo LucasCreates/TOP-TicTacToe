@@ -1,9 +1,11 @@
 body{
-    background-color: rgb(129, 129, 129);
+    background-color: rgb(109, 128, 136);
     margin: 0;
     height: 100vh;
     display: flex;
     justify-content: center;
+    user-select: none;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .main-container{
@@ -23,14 +25,25 @@ body{
     justify-content: center;
     align-items: center;
 }
-
-.start {
-    margin-bottom: 20px;
-    width: 6rem;
-    height: 3rem;
-    border-radius: 30px;
+.game-container {
+    display: flex;
+    gap: 20px;
 }
-.game-container{
+
+.players{
+    background-color: blueviolet;
+    height: 300px;
+    width: 300px;
+    text-align: center;
+}
+.players p {
+    font-size: 100px;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+}
+
+.board-container{
     height: 500px;
     width: 500px;
     display: grid;
@@ -57,66 +70,98 @@ body{
 .square[data-index-number="1"]{
     /* background-color: aqua; */
 }
-.test {
-    /* background-color: blueviolet; */
-    transition: opacity 1s ease-in-out;
-}
-.test:hover {
-    transform: scale(1.2);
-
-}
-.marker-container{
-    /* background-color: blue; */
-    height: 80px;
-    width: 500px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.marker-btn {
-    height: 40px;
-    width: 60px;
-    color: rgb(255, 255, 255);
-    font-size: 30px;
-    font-weight: bold;
-    border-radius: 10px;
-    border: none;
-    background-color: rgb(86, 78, 94);
-    cursor: pointer;
-}
-.marker-btn:hover {
-    background-color: rgb(105, 94, 116);
-}
-.marker-btn:active {
-    position: relative;
-    top: 2px;
-}
 dialog{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    border-radius: 20px;
+    background-color: rgb(186, 208, 228);
+   
+}
+dialog::backdrop {
+    backdrop-filter: blur(1px);
+    background-color: rgb(59, 93, 93);
+}
+dialog p{
+    text-align: center;
 }
 label{
     display: flex;
     margin: 1rem;
     justify-content: center;
+    font-size: 19px;
+    font-weight: bold;
+    color: rgb(75, 86, 100);
 }
 form{
     display: flex;
     gap: 40px;
     flex-direction: column;
     align-items: center;
+    user-select: none;
     
+}
+input{
+    /* border: none; */
+    border-radius: 10px;
+    height: 30px;
+    text-indent: 10px;
+    font-size: 14px;
 }
 .form-input {
     display: flex;
     gap: 2rem;
 }
 .marker-c{
-    display: flex;
-    gap: 10rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
     
 }
 .markers{
+    height: 100px;
+    width: 100px;
+    border-radius: 20%;
+    font-size: 60px;
+    font-weight: bold;
+    color: rgb(97, 111, 129);
+    cursor: pointer;
+    
+}
+.confirm {
+    height: 50px;
+    width: 120px;
+    border-radius: 10px;
+    color: rgb(87, 99, 116);
+    font-weight: bold;
+    font-size: 28px;
+    cursor: pointer;
+}
+.markers:hover{
+    background-color: rgb(158, 185, 209);
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px black;
+}
+.markers:focus {
+    background-color: rgb(158, 185, 209);
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px black;
+    box-shadow: 2px 2px 20px rgb(255, 255, 255);
+    
+}
+.confirm:hover {
+    background-color: rgb(217, 224, 231);
+}
 
+.close {
+    position: relative;
+    left: 92%;
+    bottom: 50px;
+    border-radius: 10px;
+    height: 30px;
+    width: 30px;
+    font-size: 23px;
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px black;
+    cursor: pointer;
+    background-color: rgba(206, 75, 75, 0.395);
+}
+.close:hover {
+    background-color: rgba(206, 75, 75, 0.58);
 }
