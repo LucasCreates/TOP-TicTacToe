@@ -28,11 +28,23 @@
 //     const markerHits = []
 //     return {name1, marker, newFunc, playerMarker, markerHits}
 // }
+const start = () =>{
+    const startGame = document.querySelector(".start")
+    const dialog = document.querySelector("dialog")
 
+    startGame.addEventListener("click", () => {
+        console.log("this button is working")
+        dialog.showModal()
+    })
+}
+start()
 
 const domElements = (function (){
     const header = document.querySelector(".header")
     const container = document.querySelector(".game-container")
+    
+    
+
     return {header, container}
 })()
 

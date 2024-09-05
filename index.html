@@ -13,16 +13,38 @@
                 <button class="start">Start Game</button>
 
             </div>
+            <dialog>
+                <p>Select your marker</p>
+                <form method="dialog">
+                    <div class="form-input">
+                        <div>
+                            <label for="name">Player One Name</label>
+                            <input type="text" id="name" name="name">
+                        
+                        </div>
+                        <div>
+                            <label for="name">Player Two Name</label>
+                            <input type="text" id="name" name="name">
+                        </div>
+                    </div>
+                    <div class="marker-c">
+                        <button class="markers cross">X</button>
+                        <button class="markers circle">O</button>
+                    </div>
+                    
+                </form>
+            </dialog>
+
             <div class="game-container">
-                <div data-index-number="a0" class="square">1</div>
-                <div data-index-number="a1" class="square">2</div>
-                <div data-index-number="a2" class="square">3</div>
-                <div data-index-number="b0" class="square">4</div>
-                <div data-index-number="b1" class="square">5</div>
-                <div data-index-number="b2" class="square">6</div>
-                <div data-index-number="c0" class="square">7</div>
-                <div data-index-number="c1" class="square">8</div>
-                <div data-index-number="c2" class="square">9</div>
+                <div data-index-number="a0" class="square"></div>
+                <div data-index-number="a1" class="square"></div>
+                <div data-index-number="a2" class="square"></div>
+                <div data-index-number="b0" class="square"></div>
+                <div data-index-number="b1" class="square"></div>
+                <div data-index-number="b2" class="square"></div>
+                <div data-index-number="c0" class="square"></div>
+                <div data-index-number="c1" class="square"></div>
+                <div data-index-number="c2" class="square"></div>
             </div>
             <div>
                 <button class="reset">Reset</button>

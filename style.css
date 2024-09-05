@@ -91,3 +91,32 @@ body{
     position: relative;
     top: 2px;
 }
+dialog{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+label{
+    display: flex;
+    margin: 1rem;
+    justify-content: center;
+}
+form{
+    display: flex;
+    gap: 40px;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.form-input {
+    display: flex;
+    gap: 2rem;
+}
+.marker-c{
+    display: flex;
+    gap: 10rem;
+    
+}
+.markers{
+
+}
