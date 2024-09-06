@@ -182,7 +182,7 @@ const start = (() => {
     const start = document.querySelector("form");
     start.addEventListener("submit", (e) => {
         // e.preventDefault()
-        displayPlayerInfo()
+        gameData()
         // gameLoader(); this is just an empty f for now
     })
     // return {p1Name, p2Name, circleBtn ,crossBtn, getMarker}
@@ -193,35 +193,35 @@ const start = (() => {
 
 
 
-function displayPlayerInfo(){
-    // console.log(start.test.toString())
-    // if (start.crossBtn.value){
-    //     console.log("This is X")
-    // }
-    // else {
-    //     console.log("This is O")
-    // }
-    const displayP1Mark = document.querySelector(".p1-mark");
-    const displayP2Mark = document.querySelector(".p2-mark");
+function gameData(){
+ 
+    const displayP1Mark = document.querySelector(".p1-marker");
+    const displayP2Mark = document.querySelector(".p2-marker");
 
     const displayP1Name = document.querySelector(".p1-name")
     const displayP2Name = document.querySelector(".p2-name")
     
-    const p1 = new Player(start.p1Name.value, start.getMarker.toString())
-    // const p1 = new Player(start.p1Name.value, start.getMarker.toString())
-    // const p2 = new Player(start.p2Name.value, start.markers.value)
-
-    console.log(p1)
-    // const nameP1 = document.querySelector(".p1-name")
-    // const nameP2 = document.querySelector(".p2-name")
-    // const nameInputP1 = document.querySelector("[data-player-one]").value
-    // const nameInputP2 = document.querySelector("[data-player-two]").value
-
-    // const markerP1 = document.querySelector(".p1-marker")
-    // const markerP2 = document.querySelector(".p2-marker")
-    // console.log(`Player name is ${name3}`)
+    let setMarker;
+      
+    if(start.getMarker.toString() === "O"){
+        setMarker = "X";
+    }else {
+        setMarker = "O"
+    }
     
+    const p1 = new Player(start.p1Name.value, start.getMarker.toString())
+    const p2 = new Player(start.p2Name.value, setMarker)
+   
+    displayP1Name.textContent = p1.name
+    displayP2Name.textContent = p2.name
+    displayP1Mark.textContent = p1.marker
+    displayP2Mark.textContent = p2.marker
+    
+    
+    return {p1, p2}
 }
+
+console.log(gameData().p1)
 
 function gameLoader () {
     // resetBoard()
@@ -300,8 +300,8 @@ const GameBoard = (() => {
     return { boardMatrix,  winnerArrays, playerTurn, updateBoard }
 })();
 
-console.log(GameBoard.board)
-console.log(GameBoard.boardMatrix)
+// console.log(GameBoard.board)
+// console.log(GameBoard.boardMatrix)
 // console.log(GameBoard.board2[1][2])
 gameLoader()
 // startGame()

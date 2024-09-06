@@ -35,6 +35,10 @@ body{
     height: 300px;
     width: 300px;
     text-align: center;
+    border-bottom-left-radius: 30%;
+    border-bottom-right-radius: 30%;
+    border-top-left-radius: 10%;
+    border-top-right-radius: 10%;
 }
 .players p {
     font-size: 100px;
