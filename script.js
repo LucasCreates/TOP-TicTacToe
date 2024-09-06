@@ -137,28 +137,47 @@ function Player(name, marker){
 const start = (() => {
     const startGame = document.querySelector(".start");
     const dialog = document.querySelector("dialog");
+
+    const getMarker = [];
+
     
-    startGame.addEventListener("click", (e) => {
-        dialog.showModal() 
+    // const setMarker = getMarker.toString()
+
+    const p1Name = document.querySelector("[data-player-one]")
+    p1Name.addEventListener("input", (e)=>{return e.value})
+    
+    const p2Name = document.querySelector("[data-player-two]")
+    p2Name.addEventListener("input", (e) => {return e.value})
+
+    startGame.addEventListener("click", () => {dialog.showModal()})
+
+    const markers = document.querySelectorAll("[data-mark]");
+    markers.forEach((mark) =>{
+        mark.addEventListener("click", (e) => {
+            console.log(e.target.value)
+            // playerMark = e.target.value
+            getMarker.pop()
+            return getMarker.push(e.target.value);
+        })
     })
 
-    const crossBtn = document.querySelector(".cross");
-    crossBtn.addEventListener("click",(e) =>{
-        console.log(e.target.dataset.mark)  
-    })
+    // const crossBtn = document.querySelector(".cross");
+    // crossBtn.addEventListener("click",(e) =>{
+    //     console.log(e.target.value)
+    //     getMarker.pop()
+    //     return getMarker.push(e.target.value)
+    // })
 
-    const circleBtn = document.querySelector(".circle");
-    circleBtn.addEventListener("click",(e) =>{
-        console.log(e.target.dataset.mark) 
-        const mark = e.target.dataset.mark 
-        return mark
+    // const circleBtn = document.querySelector(".circle");
+    // circleBtn.addEventListener("click",(e) =>{
+    //     console.log(e.target.value) 
+    //     getMarker.pop()
+    //     return getMarker.push(e.target.value)
         
-    })
+    // })
 
     const close = document.querySelector(".close");
-    close.addEventListener("click", () => {
-        dialog.close()
-    })
+    close.addEventListener("click", () => {dialog.close()})
 
     const start = document.querySelector("form");
     start.addEventListener("submit", (e) => {
@@ -166,32 +185,42 @@ const start = (() => {
         displayPlayerInfo()
         // gameLoader(); this is just an empty f for now
     })
-    return {circleBtn}
+    // return {p1Name, p2Name, circleBtn ,crossBtn, getMarker}
+    return {p1Name, p2Name, getMarker}
 })();
 // start()
-console.log(start.circleBtn.value)
-function displayPlayerInfo(){
-    // const name = document.querySelector("[data-name]").value
-    const nameP1 = document.querySelector(".p1-name")
-    const nameP2 = document.querySelector(".p2-name")
-    const nameInputP1 = document.querySelector("[data-player-one]").value
-    const nameInputP2 = document.querySelector("[data-player-two]").value
+// console.log(start.circleBtn.value)
 
-    const markerP1 = document.querySelector(".p1-marker")
-    const markerP2 = document.querySelector(".p2-marker")
+
+
+function displayPlayerInfo(){
+    // console.log(start.test.toString())
+    // if (start.crossBtn.value){
+    //     console.log("This is X")
+    // }
+    // else {
+    //     console.log("This is O")
+    // }
+    const displayP1Mark = document.querySelector(".p1-mark");
+    const displayP2Mark = document.querySelector(".p2-mark");
+
+    const displayP1Name = document.querySelector(".p1-name")
+    const displayP2Name = document.querySelector(".p2-name")
+    
+    const p1 = new Player(start.p1Name.value, start.getMarker.toString())
+    // const p1 = new Player(start.p1Name.value, start.getMarker.toString())
+    // const p2 = new Player(start.p2Name.value, start.markers.value)
+
+    console.log(p1)
+    // const nameP1 = document.querySelector(".p1-name")
+    // const nameP2 = document.querySelector(".p2-name")
+    // const nameInputP1 = document.querySelector("[data-player-one]").value
+    // const nameInputP2 = document.querySelector("[data-player-two]").value
+
+    // const markerP1 = document.querySelector(".p1-marker")
+    // const markerP2 = document.querySelector(".p2-marker")
     // console.log(`Player name is ${name3}`)
-    nameP1.textContent = nameInputP1
-    nameP2.textContent = nameInputP2
-    const mark = start.circleBtn.value
-    if(markerP1 === "X"){
-        markerP2.textContent = "O"
-    }
-    else {
-        markerP2.textContent = "X"
-    }
-    markerP1.textContent = mark
-    console.log(mark)
-    // const playerOne = new Player(name)
+    
 }
 
 function gameLoader () {
