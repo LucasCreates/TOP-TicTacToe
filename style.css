@@ -30,17 +30,20 @@ body{
     gap: 20px;
 }
 
-.players{
-    background-color: blueviolet;
+.player-display{
+    display: none;
+    background-color: rgb(41, 127, 142);
     height: 300px;
     width: 300px;
     text-align: center;
+    border: 2px solid rgb(33, 102, 90);
+    box-shadow: 0px 10px 10px 10px rgb(228, 238, 151);
     border-bottom-left-radius: 30%;
     border-bottom-right-radius: 30%;
     border-top-left-radius: 10%;
     border-top-right-radius: 10%;
 }
-.players p {
+.player-display p {
     font-size: 100px;
     margin: 0;
     padding: 0;

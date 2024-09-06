@@ -133,15 +133,18 @@ function Player(name, marker){
     return {name, marker}
 }
 
+function displayPlayers(){
+    const container = document.querySelectorAll(".player-display")
+    container.forEach((contain) => {
+        contain.style.display = "block"
+    })
+    
+}
 
 const start = (() => {
     const startGame = document.querySelector(".start");
     const dialog = document.querySelector("dialog");
-
     const getMarker = [];
-
-    
-    // const setMarker = getMarker.toString()
 
     const p1Name = document.querySelector("[data-player-one]")
     p1Name.addEventListener("input", (e)=>{return e.value})
@@ -154,27 +157,11 @@ const start = (() => {
     const markers = document.querySelectorAll("[data-mark]");
     markers.forEach((mark) =>{
         mark.addEventListener("click", (e) => {
-            console.log(e.target.value)
-            // playerMark = e.target.value
             getMarker.pop()
             return getMarker.push(e.target.value);
         })
     })
 
-    // const crossBtn = document.querySelector(".cross");
-    // crossBtn.addEventListener("click",(e) =>{
-    //     console.log(e.target.value)
-    //     getMarker.pop()
-    //     return getMarker.push(e.target.value)
-    // })
-
-    // const circleBtn = document.querySelector(".circle");
-    // circleBtn.addEventListener("click",(e) =>{
-    //     console.log(e.target.value) 
-    //     getMarker.pop()
-    //     return getMarker.push(e.target.value)
-        
-    // })
 
     const close = document.querySelector(".close");
     close.addEventListener("click", () => {dialog.close()})
@@ -182,10 +169,11 @@ const start = (() => {
     const start = document.querySelector("form");
     start.addEventListener("submit", (e) => {
         // e.preventDefault()
+        displayPlayers()
         gameData()
         // gameLoader(); this is just an empty f for now
     })
-    // return {p1Name, p2Name, circleBtn ,crossBtn, getMarker}
+   
     return {p1Name, p2Name, getMarker}
 })();
 // start()
@@ -225,18 +213,40 @@ console.log(gameData().p1)
 
 function gameLoader () {
     // resetBoard()
+    let currentPlayer = true;
+
     let indexY;
     let indexX;
     const makeBoard = document.querySelectorAll(".square");
 
     makeBoard.forEach((board) => {
-        const index = board.dataset.indexNumber
-            board.addEventListener("click", () =>{
-                console.log(index)
 
-                board.textContent = "X"
+        let index = board.dataset.indexNumber
+            board.addEventListener("click", () =>{
+                const p1Marker = gameData().p1.marker
+                const p2Marker = gameData().p2.marker
+              
+                if(index !== p1Marker && index !== p2Marker){
+                    if (currentPlayer){
+                        // insert a function call to change panal to indicate whos go it is on this line.
+                        index = p1Marker;
+                        board.textContent = p1Marker;
+                        //checkWin()
+                        currentPlayer = false
+                    }
+                    else {
+                        // <-- insert a function call to change panal to indicate whos go it is on this line.
+                        index = p2Marker
+                        board.textContent = p2Marker
+                        //checkWin()
+                        currentPlayer = true;
+                    }
+                }
+            
+
+                
                 const getCoordinates = index.split("")
-                console.log(getCoordinates)
+                // console.log(getCoordinates)
                 if (getCoordinates[0] === "a") {
                     indexY = "0"
                 }
@@ -248,9 +258,9 @@ function gameLoader () {
                 }
                 indexX = getCoordinates[1]
 
-                console.log(indexY,indexX)
-                console.table(GameBoard.updateBoard(indexY, indexX , "X")) //This works! This assigns a cross (or a circle) to the board
-                console.table(GameBoard.boardMatrix)
+                // console.log(indexY,indexX)
+              //  console.table(GameBoard.updateBoard(indexY, indexX , "X")) //This works! This assigns a cross (or a circle) to the board
+                // console.table(GameBoard.boardMatrix)
                
             })
     return
