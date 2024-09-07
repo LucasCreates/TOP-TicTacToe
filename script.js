@@ -1,4 +1,5 @@
 
+
  
 
 // const startGame = () => {
@@ -181,6 +182,34 @@ const start = (() => {
 
 
 
+function checkWin(marker){
+    console.log("Check Win")
+    
+    for (i = 0; i< GameBoard.winnerArrays.length; i++){
+        // console.log(i)
+        const [a,b,c] = GameBoard.winnerArrays[i]
+        if(GameBoard.boardMatrix[a] === marker){ //&& GameBoard.boardMatrix[b] === marker && GameBoard.boardMatrix[c] === marker){
+            console.log("WINNER")
+        }
+        console.log(`board = ${gameData.board.textContent}`)
+        console.log(`marker = ${marker}`)
+        // console.log(`text = ${GameBoard.boardMatrix}`)
+        // console.log(`gameData().p1.marker = ${gameData().p1.marker[c]}`)
+        // console.table(`GameBoard.boardMatrix[a] = ${GameBoard.boardMatrix[a]} `) 
+        // console.log(`GameBoard.boardMatrix[b] = ${GameBoard.boardMatrix[b]} `) 
+        // console.log(`GameBoard.boardMatrix[c] = ${GameBoard.boardMatrix[c]} `) 
+        // console.log(GameBoard.boardMatrix[b]) 
+        // console.log(GameBoard.boardMatrix[c]) 
+        // console.log(`GameBoard.boardMatrix[i] = ${GameBoard.boardMatrix[i]}`)
+        // console.log([a,b,c])
+        // console.log(GameBoard.playerScore)
+    }
+}
+
+
+
+
+
 function gameData(){
  
     const displayP1Mark = document.querySelector(".p1-marker");
@@ -209,7 +238,7 @@ function gameData(){
     return {p1, p2}
 }
 
-console.log(gameData().p1)
+// console.log(gameData().p1)
 
 function gameLoader () {
     // resetBoard()
@@ -217,6 +246,8 @@ function gameLoader () {
 
     let indexY;
     let indexX;
+
+    let setMarkToBoard;
     const makeBoard = document.querySelectorAll(".square");
 
     makeBoard.forEach((board) => {
@@ -225,25 +256,27 @@ function gameLoader () {
             board.addEventListener("click", () =>{
                 const p1Marker = gameData().p1.marker
                 const p2Marker = gameData().p2.marker
-              
-                if(index !== p1Marker && index !== p2Marker){
+                console.log(`index on click = ${index}`)
+                if(board.textContent !== p1Marker && board.textContent !== p2Marker){
                     if (currentPlayer){
                         // insert a function call to change panal to indicate whos go it is on this line.
-                        index = p1Marker;
+                       
                         board.textContent = p1Marker;
-                        //checkWin()
+                        setMarkToBoard = p1Marker
+                        GameBoard.playerScore.push(p1Marker)
+                        
                         currentPlayer = false
                     }
                     else {
                         // <-- insert a function call to change panal to indicate whos go it is on this line.
-                        index = p2Marker
+                        
                         board.textContent = p2Marker
-                        //checkWin()
+                        setMarkToBoard = p2Marker
+                        GameBoard.playerScore.push(p2Marker)
+                
                         currentPlayer = true;
                     }
                 }
-            
-
                 
                 const getCoordinates = index.split("")
                 // console.log(getCoordinates)
@@ -257,18 +290,22 @@ function gameLoader () {
                     indexY = "2"
                 }
                 indexX = getCoordinates[1]
-
-                // console.log(indexY,indexX)
-              //  console.table(GameBoard.updateBoard(indexY, indexX , "X")) //This works! This assigns a cross (or a circle) to the board
-                // console.table(GameBoard.boardMatrix)
+                GameBoard.updateBoard(indexY, indexX , setMarkToBoard)
+                // console.log("Variable list -")
+                // console.log(`index = ${index}`)
+                // console.log(`setMarkToBoard = ${setMarkToBoard}`)
+                // console.log(`getCoordinates[1] = ${getCoordinates[1]}`)
+                // console.log(`getCoordinates[0] = ${getCoordinates[0]}`)
+                
+                // console.log(`indexY = ${indexY}`,`indexX = ${indexX}`)
+                //console.log(indexY,indexX)
+                //console.table(GameBoard.updateBoard(indexY, indexX , setMarkToBoard)) //This works! This assigns a cross (or a circle) to the board
+            //    console.table(GameBoard.boardMatrix[2]) // edit boardmatrix to find winner
+               checkWin(setMarkToBoard)
                
             })
-    return
-    })
-    
-
-
-    
+    return {board}
+    })    
 };
 
 const GameBoard = (() => {
@@ -296,7 +333,7 @@ const GameBoard = (() => {
 
     const winnerArrays = [
                           [0,1,2], 
-                          [1,4,7],  
+                          [3,4,7],  
                           [6,7,8],
                           [0,3,6],
                           [2,5,8],
@@ -307,11 +344,12 @@ const GameBoard = (() => {
 
     const playerScore = []
    
-    return { boardMatrix,  winnerArrays, playerTurn, updateBoard }
+    return { boardMatrix,  winnerArrays, playerTurn, updateBoard, playerScore }
 })();
 
 // console.log(GameBoard.board)
-// console.log(GameBoard.boardMatrix)
+console.log(GameBoard.boardMatrix)
 // console.log(GameBoard.board2[1][2])
 gameLoader()
 // startGame()
+ 
