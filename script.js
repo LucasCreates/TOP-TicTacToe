@@ -1,4 +1,6 @@
 
+
+
  
 
 // const startGame = () => {
@@ -171,6 +173,7 @@ const start = (() => {
         // e.preventDefault()
         displayPlayers()
         gameData()
+        
         // gameLoader(); this is just an empty f for now
     })
    
@@ -178,6 +181,52 @@ const start = (() => {
 })();
 // start()
 // console.log(start.circleBtn.value)
+
+
+
+function checkWin(marker){
+    console.log("Check Win")
+    const cell = GameBoard.boardMatrix
+    // for (i = 0; i < GameBoard.winnerArrays.length; i++){
+    //     // console.log(i)
+      
+        if(cell[0][0] === marker && cell[0][1] === marker & cell[0][2] === marker ||
+           cell[1][0] === marker && cell[1][1] === marker & cell[1][2] === marker || //across
+           cell[2][0] === marker && cell[2][1] === marker & cell[2][2] === marker ||
+
+           cell[0][0] === marker && cell[1][1] === marker & cell[2][2] === marker ||
+           cell[0][2] === marker && cell[1][1] === marker & cell[2][0] === marker || // down
+           
+
+           cell[0][0] === marker && cell[1][0] === marker & cell[2][0] === marker ||
+           cell[0][1] === marker && cell[1][1] === marker & cell[2][1] === marker || // diaganal
+           cell[0][2] === marker && cell[1][2] === marker & cell[2][2] === marker 
+        ){
+            console.log("WINNER")
+        }
+    for (i = 0; i < 3; i++ ){
+        for(k = 0; k < 3; k++ ){
+            // const createboard = [i,k];
+            // console.log(createboard.join(""))
+            // const [a,b,c] = GameBoard.winnerArrays[i];
+            // console.log([a,b,c])
+            // console.log(`a = ${a}`)
+            // console.log(`b = ${b}`)
+            // console.log(`c = ${c}`)
+            // console.table(cell)
+          
+            // const b = createboard.split("")
+            // console.log(b[0])
+        }
+        // console.log(i.dataset.indexNumber)
+    }
+     
+    
+    //console.log(GameBoard.displayP1Mark.textContent)
+    console.table(GameBoard.boardMatrix)
+}
+
+
 
 
 
@@ -206,10 +255,10 @@ function gameData(){
     displayP2Mark.textContent = p2.marker
     
     
-    return {p1, p2}
+    return {p1, p2,displayP1Mark, displayP2Mark}
 }
 
-console.log(gameData().p1)
+// console.log(gameData().p1)
 
 function gameLoader () {
     // resetBoard()
@@ -217,33 +266,43 @@ function gameLoader () {
 
     let indexY;
     let indexX;
+
+    let setMarkToBoard;
     const makeBoard = document.querySelectorAll(".square");
 
-    makeBoard.forEach((board) => {
+    const makeBoardTest = document.querySelectorAll(".square");
 
+
+    
+
+
+    makeBoard.forEach((board) => {
+        
         let index = board.dataset.indexNumber
             board.addEventListener("click", () =>{
                 const p1Marker = gameData().p1.marker
                 const p2Marker = gameData().p2.marker
-              
-                if(index !== p1Marker && index !== p2Marker){
+                console.log(`index on click = ${index}`)
+                if(board.textContent !== p1Marker && board.textContent !== p2Marker){
                     if (currentPlayer){
                         // insert a function call to change panal to indicate whos go it is on this line.
-                        index = p1Marker;
+                       
                         board.textContent = p1Marker;
-                        //checkWin()
+                        setMarkToBoard = p1Marker
+                        GameBoard.playerScore.push(index)
+                        
                         currentPlayer = false
                     }
                     else {
                         // <-- insert a function call to change panal to indicate whos go it is on this line.
-                        index = p2Marker
+                        
                         board.textContent = p2Marker
-                        //checkWin()
+                        setMarkToBoard = p2Marker
+                        GameBoard.playerScore.push(index)
+                
                         currentPlayer = true;
                     }
                 }
-            
-
                 
                 const getCoordinates = index.split("")
                 // console.log(getCoordinates)
@@ -257,18 +316,13 @@ function gameLoader () {
                     indexY = "2"
                 }
                 indexX = getCoordinates[1]
-
-                // console.log(indexY,indexX)
-              //  console.table(GameBoard.updateBoard(indexY, indexX , "X")) //This works! This assigns a cross (or a circle) to the board
-                // console.table(GameBoard.boardMatrix)
+                GameBoard.updateBoard(indexY, indexX , setMarkToBoard)
+              
+                checkWin(setMarkToBoard)
                
             })
-    return
-    })
-    
-
-
-    
+    return {board}
+    })    
 };
 
 const GameBoard = (() => {
@@ -296,7 +350,7 @@ const GameBoard = (() => {
 
     const winnerArrays = [
                           [0,1,2], 
-                          [1,4,7],  
+                          [3,4,7],  
                           [6,7,8],
                           [0,3,6],
                           [2,5,8],
@@ -307,11 +361,12 @@ const GameBoard = (() => {
 
     const playerScore = []
    
-    return { boardMatrix,  winnerArrays, playerTurn, updateBoard }
+    return { boardMatrix,  winnerArrays, playerTurn, updateBoard, playerScore }
 })();
 
 // console.log(GameBoard.board)
-// console.log(GameBoard.boardMatrix)
+console.log(GameBoard.boardMatrix)
 // console.log(GameBoard.board2[1][2])
 gameLoader()
 // startGame()
+ 
