@@ -169,63 +169,16 @@ const start = (() => {
     close.addEventListener("click", () => {dialog.close()})
 
     const start = document.querySelector("form");
-    start.addEventListener("submit", (e) => {
+    start.addEventListener("submit", () => {
         // e.preventDefault()
         displayPlayers()
         gameData()
-        
+        gameLoader()
         // gameLoader(); this is just an empty f for now
     })
    
     return {p1Name, p2Name, getMarker}
 })();
-// start()
-// console.log(start.circleBtn.value)
-
-
-
-function checkWin(marker){
-    console.log("Check Win")
-    const cell = GameBoard.boardMatrix
-    // for (i = 0; i < GameBoard.winnerArrays.length; i++){
-    //     // console.log(i)
-      
-        if(cell[0][0] === marker && cell[0][1] === marker & cell[0][2] === marker ||
-           cell[1][0] === marker && cell[1][1] === marker & cell[1][2] === marker || //across
-           cell[2][0] === marker && cell[2][1] === marker & cell[2][2] === marker ||
-
-           cell[0][0] === marker && cell[1][1] === marker & cell[2][2] === marker ||
-           cell[0][2] === marker && cell[1][1] === marker & cell[2][0] === marker || // down
-           
-
-           cell[0][0] === marker && cell[1][0] === marker & cell[2][0] === marker ||
-           cell[0][1] === marker && cell[1][1] === marker & cell[2][1] === marker || // diaganal
-           cell[0][2] === marker && cell[1][2] === marker & cell[2][2] === marker 
-        ){
-            console.log("WINNER")
-        }
-    for (i = 0; i < 3; i++ ){
-        for(k = 0; k < 3; k++ ){
-            // const createboard = [i,k];
-            // console.log(createboard.join(""))
-            // const [a,b,c] = GameBoard.winnerArrays[i];
-            // console.log([a,b,c])
-            // console.log(`a = ${a}`)
-            // console.log(`b = ${b}`)
-            // console.log(`c = ${c}`)
-            // console.table(cell)
-          
-            // const b = createboard.split("")
-            // console.log(b[0])
-        }
-        // console.log(i.dataset.indexNumber)
-    }
-     
-    
-    //console.log(GameBoard.displayP1Mark.textContent)
-    console.table(GameBoard.boardMatrix)
-}
-
 
 
 
@@ -253,120 +206,204 @@ function gameData(){
     displayP2Name.textContent = p2.name
     displayP1Mark.textContent = p1.marker
     displayP2Mark.textContent = p2.marker
+    // console.log(`p1marker is ${p1.marker}`)
+    // console.log(`p2marker is ${p2.marker}`)
     
-    
-    return {p1, p2,displayP1Mark, displayP2Mark}
+    return {p1, p2, displayP1Mark, displayP2Mark}
 }
 
-// console.log(gameData().p1)
+function displayPlayerTurn(currentPlayer){
+    
+    if(currentPlayer){
+        console.log("p1")
+        const p1 = document.querySelector(".player-1")
+        p1.style.transform = "scale(1.2)"
+    }
+    else {
+        const p2 = document.querySelector(".player-2")
+        p2.style.background = none
+        console.log("p2")
+    }
+}
+// displayPlayerTurn()
 
-function gameLoader () {
+
+function displayWinner(){
+    console.log("Winner")
+}
+
+
+const gameLoader = () => {
     // resetBoard()
     let currentPlayer = true;
 
-    let indexY;
-    let indexX;
+    // let indexY;
+    // let indexX;
+
+    // const p1Marker = gameData().p1.marker
+    // const p2Marker = gameData().p2.marker
+
+   
 
     let setMarkToBoard;
-    const makeBoard = document.querySelectorAll(".square");
+    // const makeBoard = document.querySelectorAll(".square");
+    const cells = document.querySelectorAll(".square");
 
-    const makeBoardTest = document.querySelectorAll(".square");
 
+    const initGame = () => {
+        cells.forEach((cell, index) =>{
+            cell.setAttribute("data-index-number", index)
+            cell.addEventListener("click", cellOnClick)
+     
+            
+        });
+    }
+
+    const cellOnClick = (e) => {
+        const cell = e.target
+        console.log(`p mark is  ${start.getMarker}`)
+        const p1Marker = start.getMarker
+        const p2Marker = gameData().p2.marker
+        console.log(`p1 mark is  ${p1Marker}`)
+        console.log(`p2 mark is  ${p2Marker}`)
+
+    if(cell.textContent !== p1Marker && cell.textContent !== p2Marker){
+        if (currentPlayer){
+            displayPlayerTurn(currentPlayer)
+            cell.textContent = p1Marker
+            setMarkToBoard = p1Marker
+            currentPlayer = false
+            
+        }
+        else {
+            displayPlayerTurn(currentPlayer)
+            cell.textContent =  p2Marker
+            setMarkToBoard = p2Marker
+            currentPlayer = true;
+            
+        }
+        GameBoard.updateBoard(e.target.dataset.indexNumber, setMarkToBoard)
+        checkWin(setMarkToBoard)
+       
+    }    
+       
+    }
+
+    const checkWin = (marker) =>{
+        const mark = marker
+        return winnerArrays.some(win => {
+            const [a,b,c] = win
+            if(GameBoard.getBoard()[a] === mark && GameBoard.getBoard()[b] === mark && GameBoard.getBoard()[c] === mark){
+                return displayWinner()
+            } 
+        })       
+    }
+
+    const winnerArrays = 
+    [
+        [0,1,2], 
+        [3,4,7],  
+        [6,7,8],
+        [0,3,6],
+        [2,5,8],
+        [3,4,5], 
+        [0,4,8],
+        [2,4,6]
+    ] 
 
     
-
-
-    makeBoard.forEach((board) => {
-        
-        let index = board.dataset.indexNumber
-            board.addEventListener("click", () =>{
-                const p1Marker = gameData().p1.marker
-                const p2Marker = gameData().p2.marker
-                console.log(`index on click = ${index}`)
-                if(board.textContent !== p1Marker && board.textContent !== p2Marker){
-                    if (currentPlayer){
-                        // insert a function call to change panal to indicate whos go it is on this line.
-                       
-                        board.textContent = p1Marker;
-                        setMarkToBoard = p1Marker
-                        GameBoard.playerScore.push(index)
-                        
-                        currentPlayer = false
-                    }
-                    else {
-                        // <-- insert a function call to change panal to indicate whos go it is on this line.
-                        
-                        board.textContent = p2Marker
-                        setMarkToBoard = p2Marker
-                        GameBoard.playerScore.push(index)
-                
-                        currentPlayer = true;
-                    }
-                }
-                
-                const getCoordinates = index.split("")
-                // console.log(getCoordinates)
-                if (getCoordinates[0] === "a") {
-                    indexY = "0"
-                }
-                else if  (getCoordinates[0] === "b"){
-                    indexY = "1"
-                }
-                else if  (getCoordinates[0] === "c"){
-                    indexY = "2"
-                }
-                indexX = getCoordinates[1]
-                GameBoard.updateBoard(indexY, indexX , setMarkToBoard)
-              
-                checkWin(setMarkToBoard)
-               
-            })
-    return {board}
-    })    
+   
+    return {initGame, currentPlayer}
 };
 
 const GameBoard = (() => {
- 
-    let playerTurn = false;
-
     let boardMatrix =  [
         ["","",""], 
         ["","",""],
         ["","",""]  
         ];
+    let board = ["","","","","","","","",""]   
+    
+    const getBoard = () => board
 
-    const updateBoard = (index1, index2, marker) =>{
-        boardMatrix[index1][index2] = marker;
+    // const updateBoard = (index1, index2, marker) =>{boardMatrix[index1][index2] = marker;}
+    const updateBoard = (index,  marker) =>{board[index] = marker;}
+    
+    const resetBoard = () => {[
+        ["","",""], 
+        ["","",""],
+        ["","",""]  
+        ];
 
     }
-    // const board = (function () {
-        // let boardArray = [
-              //         [1,2,3], //[0] <-- targets each layer | Either [0] or [1] or [2] to target 1 or 2 or 3 respectively
-            //           [4,5,6], //[1] <-- targets each layer | Either [0] or [1] or [2] to target 4 or 5 or 6 respectively
-          //             [7,8,9]  //[2] <-- targets each layer | Either [0] or [1] or [2] to target 7 or 8 or 9 respectively
-        //               ]         // So for example, console.log(createBoard[1][2]) output is 6
-        // return boardArray
-    // })();
-
-    const winnerArrays = [
-                          [0,1,2], 
-                          [3,4,7],  
-                          [6,7,8],
-                          [0,3,6],
-                          [2,5,8],
-                          [3,4,5], 
-                          [0,4,8],
-                          [2,4,6]
-                         ] 
-
-    const playerScore = []
-   
-    return { boardMatrix,  winnerArrays, playerTurn, updateBoard, playerScore }
+    return { boardMatrix, updateBoard, resetBoard, board, getBoard }
 })();
 
-// console.log(GameBoard.board)
-console.log(GameBoard.boardMatrix)
-// console.log(GameBoard.board2[1][2])
-gameLoader()
+
+gameLoader().initGame()
 // startGame()
  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ // makeBoard.forEach((board) => {
+        
+    //     let index = board.dataset.indexNumber
+    //         board.addEventListener("click", () =>{
+    //             const p1Marker = gameData().p1.marker
+    //             const p2Marker = gameData().p2.marker
+    //             // console.log(`index on click = ${index}`)
+    //             if(board.textContent !== p1Marker && board.textContent !== p2Marker){
+    //                 if (currentPlayer){
+    //                     // insert a function call to change panal to indicate whos go it is on this line.
+    //                     board.textContent = p1Marker;
+    //                     setMarkToBoard = p1Marker
+    //                     // GameBoard.playerScore.push(index)
+    //                     currentPlayer = false
+    //                     displayPlayerTurn()
+    //                     // checkWin(currentPlayer,setMarkToBoard)
+    //                 }
+    //                 else {
+    //                     // <-- insert a function call to change panal to indicate whos go it is on this line.
+    //                     board.textContent = p2Marker
+    //                     setMarkToBoard = p2Marker
+    //                     // GameBoard.playerScore.push(index)
+    //                     currentPlayer = true;
+    //                     displayPlayerTurn()
+    //                     // checkWin(currentPlayer,setMarkToBoard)
+    //                 }
+    //             }
+    //             const getCoordinates = index.split("")
+    //             // console.log(getCoordinates)
+    //             if (getCoordinates[0] === "a") {
+    //                 indexY = "0"
+    //             }
+    //             else if  (getCoordinates[0] === "b"){
+    //                 indexY = "1"
+    //             }
+    //             else if  (getCoordinates[0] === "c"){
+    //                 indexY = "2"
+    //             }
+    //             indexX = getCoordinates[1]
+    //             GameBoard.updateBoard(indexY, indexX , setMarkToBoard)
+    //             // checkWin(currentPlayer,setMarkToBoard) 
+               
+    //         })
+         
+    // })  
