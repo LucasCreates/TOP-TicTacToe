@@ -123,16 +123,9 @@ const domElements = (function (){ //placeholder name
 //     })
 // }
 
-// function checkWin(currentPlayer, square) {
-//     for (i = 0; i< gameBoard.winnerArrays.length; i++){
-//         console.log(i)
-//         const [a,b,c] = gameBoard.winnerArrays[i]
-//         console.log([a,b,c])
-//     }
-// }
 
-function Player(name, marker){
-    return {name, marker}
+function Player(name, marker, score){
+    return {name, marker, score}
 }
 
 function displayPlayers(display){
@@ -164,7 +157,6 @@ const start = (() => {
         })
     })
 
-
     const close = document.querySelector(".close");
     close.addEventListener("click", () => {dialog.close()})
 
@@ -179,8 +171,6 @@ const start = (() => {
    
     return {p1Name, p2Name, getMarker}
 })();
-
-
 
 
 function gameData(){
@@ -198,32 +188,16 @@ function gameData(){
     }else {
         setMarker = "O"
     }
-    
     const p1 = new Player(start.p1Name.value, start.getMarker.toString())
     const p2 = new Player(start.p2Name.value, setMarker)
-   
+
     displayP1Name.textContent = p1.name
     displayP2Name.textContent = p2.name
     displayP1Mark.textContent = p1.marker
     displayP2Mark.textContent = p2.marker
-    // console.log(`p1marker is ${p1.marker}`)
-    // console.log(`p2marker is ${p2.marker}`)
-    
     return {p1, p2, displayP1Mark, displayP2Mark}
 }
 
-// function playerDisplayShield(p){
-   
-//         p1.style.transform = "scale(1.0)"
-//         p2.style.transform = "scale(1.2)"
-//         p2.style.transition = "All 0.5s"
-//         p2.style.boxShadow = "0px 10px 10px 10px rgb(246, 248, 228)"
-//         p1.style.boxShadow = "none"
-
-
-        
-//         return p1, p2
-// }
 
 
 function displayPlayerTurn(currentPlayer){
@@ -235,18 +209,13 @@ function displayPlayerTurn(currentPlayer){
         p2.style.transition = "All 0.5s"
         p2.style.boxShadow = "0px 10px 10px 10px rgb(246, 248, 228)"
         p1.style.boxShadow = "none"
-        // playerDisplayShield(p1)
-
-      
     }
     else {
-        // playerDisplayShield(p2)
         p1.style.transition = "All 0.5s"
         p2.style.transform = "scale(1.0)"
         p1.style.transform = "scale(1.2)"
         p1.style.boxShadow = "0px 10px 10px 10px rgb(246, 248, 228)"
         p2.style.boxShadow = "none"
-     
     }
 }
 // displayPlayerTurn()
@@ -255,28 +224,36 @@ function displayPlayerTurn(currentPlayer){
 function displayWinner(victory){
     const winner = document.querySelector(".display-winner")
     const winnerName = document.querySelector(".winner-name")
-    // return winner
-    // console.log(`victory is ${victory}`)
     winner.style.display = "flex"
     winnerName.textContent = `${victory} is the winner!`
-    // console.log("Winner")
+  
 }
 
 
+
 const gameLoader = () => {
-    // resetBoard()
+    const reset = document.querySelector(".reset")
+    reset.addEventListener("click", () => {
+
+        console.log(currentPlayer)
+        currentPlayer = true
+        
+        cells.forEach((cell, index) =>{
+            cell.textContent= ""
+        });
+        
+    })
+
+    const cells = document.querySelectorAll(".square");
     let currentPlayer = true;
 
     let setMarkToBoard;
-    // const makeBoard = document.querySelectorAll(".square");
-    const cells = document.querySelectorAll(".square");
-
 
     const initGame = () => {
         cells.forEach((cell, index) =>{
             cell.setAttribute("data-index-number", index)
             cell.addEventListener("click", cellOnClick)
-     
+           
             
         });
     }
@@ -310,14 +287,18 @@ const gameLoader = () => {
     }    
        
     }
-
+  
     const checkWin = (marker) =>{
         const mark = marker
         console.log(`mark in checkWin = ${mark}`)
+      
         return winnerArrays.some(win => {
             const [a,b,c] = win
+            console.log(`GameBoard.getBoard()[a] = ${GameBoard.getBoard()[a] } GameBoard.getBoard()[b] = ${GameBoard.getBoard()[b]} GameBoard.getBoard()[c] = ${GameBoard.getBoard()[c]}`)
+            
             if(GameBoard.getBoard()[a] === mark && GameBoard.getBoard()[b] === mark && GameBoard.getBoard()[c] === mark){
                 console.log(`currentPlayer is ${currentPlayer}`)
+                console.log("WINNER")
                 if(mark[0] === "X" || mark[0 === "O"] && currentPlayer === false){
                     console.log(gameData().p1.name)
                     return displayWinner(gameData().p1.name)
@@ -339,7 +320,8 @@ const gameLoader = () => {
         [2,5,8],
         [3,4,5], 
         [0,4,8],
-        [2,4,6]
+        [2,4,6],
+        [1,4,7]
     ] 
 
     
@@ -357,7 +339,7 @@ const GameBoard = (() => {
     
     const getBoard = () => board
 
-    // const updateBoard = (index1, index2, marker) =>{boardMatrix[index1][index2] = marker;}
+
     const updateBoard = (index,  marker) =>{board[index] = marker;}
     
     const resetBoard = () => {[

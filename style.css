@@ -40,7 +40,6 @@ body{
     width: 300px;
     text-align: center;
     border: 2px solid rgb(72, 80, 107);
-    /* box-shadow: 0px 10px 10px 10px rgb(246, 248, 228); */
     border-bottom-left-radius: 30%;
     border-bottom-right-radius: 30%;
     border-top-left-radius: 10%;
@@ -64,7 +63,7 @@ body{
     gap: 5px;
     grid-template-columns: repeat(3, minmax(50px, 1fr));
     grid-template-rows: repeat(3, minmax(50px, 1fr));
-    /* margin-left: 10%; */
+
 
 }
 
@@ -74,16 +73,11 @@ body{
     align-items: center;
     font-size: 6rem;
     background-color: rgb(255, 255, 255);
-    /* grid-column: 1 / -1; */
-    /* height: 20px; */
     border: 1px solid black;
-    /* width: 20px; */
     cursor: pointer;
     user-select: none;
 }
-.square[data-index-number="1"]{
-    /* background-color: aqua; */
-}
+
 dialog{
     border-radius: 20px;
     background-color: rgb(186, 208, 228);
@@ -179,7 +173,6 @@ input{
 .close:hover {
     background-color: rgba(206, 75, 75, 0.58);
 }
-<<<<<<< HEAD
 
 .display-winner {
     position: absolute;
@@ -225,5 +218,3 @@ input{
     width: 80%;
     border-radius: 10px;
 }
-=======
->>>>>>> f3dd44e4dc80e17f91851725c7a680719a238d2f
