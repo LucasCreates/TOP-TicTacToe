@@ -1,3 +1,4 @@
+
 body{
     background-color: rgb(109, 128, 136);
     margin: 0;
@@ -178,6 +179,7 @@ input{
 .close:hover {
     background-color: rgba(206, 75, 75, 0.58);
 }
+<<<<<<< HEAD
 
 .display-winner {
     position: absolute;
@@ -223,3 +225,5 @@ input{
     width: 80%;
     border-radius: 10px;
 }
+=======
+>>>>>>> f3dd44e4dc80e17f91851725c7a680719a238d2f
