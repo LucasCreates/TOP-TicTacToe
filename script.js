@@ -135,10 +135,10 @@ function Player(name, marker){
     return {name, marker}
 }
 
-function displayPlayers(){
+function displayPlayers(display){
     const container = document.querySelectorAll(".player-display")
     container.forEach((contain) => {
-        contain.style.display = "block"
+        contain.style.display = display
     })
     
 }
@@ -171,7 +171,7 @@ const start = (() => {
     const start = document.querySelector("form");
     start.addEventListener("submit", () => {
         // e.preventDefault()
-        displayPlayers()
+        displayPlayers("block")
         gameData()
         gameLoader()
         // gameLoader(); this is just an empty f for now
@@ -212,38 +212,60 @@ function gameData(){
     return {p1, p2, displayP1Mark, displayP2Mark}
 }
 
+// function playerDisplayShield(p){
+   
+//         p1.style.transform = "scale(1.0)"
+//         p2.style.transform = "scale(1.2)"
+//         p2.style.transition = "All 0.5s"
+//         p2.style.boxShadow = "0px 10px 10px 10px rgb(246, 248, 228)"
+//         p1.style.boxShadow = "none"
+
+
+        
+//         return p1, p2
+// }
+
+
 function displayPlayerTurn(currentPlayer){
-    
+    const p1 = document.querySelector(".player-1")
+    const p2 = document.querySelector(".player-2")
     if(currentPlayer){
-        console.log("p1")
-        const p1 = document.querySelector(".player-1")
-        p1.style.transform = "scale(1.2)"
+        p1.style.transform = "scale(1.0)"
+        p2.style.transform = "scale(1.2)"
+        p2.style.transition = "All 0.5s"
+        p2.style.boxShadow = "0px 10px 10px 10px rgb(246, 248, 228)"
+        p1.style.boxShadow = "none"
+        // playerDisplayShield(p1)
+
+      
     }
     else {
-        const p2 = document.querySelector(".player-2")
-        p2.style.background = none
-        console.log("p2")
+        // playerDisplayShield(p2)
+        p1.style.transition = "All 0.5s"
+        p2.style.transform = "scale(1.0)"
+        p1.style.transform = "scale(1.2)"
+        p1.style.boxShadow = "0px 10px 10px 10px rgb(246, 248, 228)"
+        p2.style.boxShadow = "none"
+     
     }
 }
 // displayPlayerTurn()
 
 
-function displayWinner(){
-    console.log("Winner")
+function displayWinner(victory){
+    const winner = document.querySelector(".display-winner")
+    const winnerName = document.querySelector(".winner-name")
+    // return winner
+    // console.log(`victory is ${victory}`)
+    winner.style.display = "flex"
+    winnerName.textContent = `${victory} is the winner!`
+    // console.log("Winner")
 }
 
 
 const gameLoader = () => {
     // resetBoard()
     let currentPlayer = true;
-
-    // let indexY;
-    // let indexX;
-
-    // const p1Marker = gameData().p1.marker
-    // const p2Marker = gameData().p2.marker
-
-   
 
     let setMarkToBoard;
     // const makeBoard = document.querySelectorAll(".square");
@@ -291,10 +313,19 @@ const gameLoader = () => {
 
     const checkWin = (marker) =>{
         const mark = marker
+        console.log(`mark in checkWin = ${mark}`)
         return winnerArrays.some(win => {
             const [a,b,c] = win
             if(GameBoard.getBoard()[a] === mark && GameBoard.getBoard()[b] === mark && GameBoard.getBoard()[c] === mark){
-                return displayWinner()
+                console.log(`currentPlayer is ${currentPlayer}`)
+                if(mark[0] === "X" || mark[0 === "O"] && currentPlayer === false){
+                    console.log(gameData().p1.name)
+                    return displayWinner(gameData().p1.name)
+                }
+                else {
+                    return displayWinner(gameData().p2.name)
+                }
+                
             } 
         })       
     }
