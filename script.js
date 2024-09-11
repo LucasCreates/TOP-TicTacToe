@@ -1,127 +1,23 @@
 
-
-
- 
-
-// const startGame = () => {
-//     const start = document.querySelector(".start")
-
-//     start.addEventListener("click", () => {
-        
-//         // gameBoard
-//         // gameBoard.container.innerHTML = ""
-//         checkWin()
-//         chooseMarker()
-//         // randomVariablesToSort()
-//         makeBoard()
-       
-        
-//         selectSquare()
-        
-//     })
-// }
-
-
-// function randomVariablesToSort (){
-//     const name1 = "Ezra";
-//     const marker = "X" 
-//     const newFunc = { name1, marker }
-//     const playerMarker = "X"
-//     const markerHits = []
-//     return {name1, marker, newFunc, playerMarker, markerHits}
-// }
-
-
-
-
-
-const domElements = (function (){ //placeholder name
+const DOMController = (function (){ //placeholder name
     const header = document.querySelector(".header")
-    const container = document.querySelector(".board-container")
-    
-    
+    const boardContainer = document.querySelector(".board-container")
+    const displayPlayers = document.querySelectorAll(".player-display")
+    const startGame = document.querySelector(".start");
+    const dialog = document.querySelector("dialog");
+    const playRound = document.querySelector(".play")
+    const displayP1Score = document.querySelector(".p1-score")
+    const displayP2Score = document.querySelector(".p2-score")
 
-    return {header, container}
-})()
-
-// console.log(domElements.header)
-
-// function chooseMarker(){
-//     const markerContainer = document.createElement("div")
-//     markerContainer.setAttribute("class", "marker-container")
-
-//     domElements.header.appendChild(markerContainer)
-
-//     // Cross choice button
-//     const cross = document.createElement("button")
-//     cross.classList.add("marker-btn")
-//     cross.setAttribute("data-mark", "cross")
-//     cross.textContent = "X"
-//     markerContainer.appendChild(cross)
-
-//     // Circle choice button
-//     const circle = document.createElement("button")
-//     circle.classList.add("marker-btn")
-//     circle.setAttribute("data-mark", "circle")
-//     circle.textContent = "O"
-//     markerContainer.appendChild(circle)
-   
-
-//     cross.addEventListener("click", (e) => {
-//         if(e.target.dataset.mark === "cross"){
-//             domElements.header.removeChild(markerContainer)
-//             return gameBoard.currentPlayer
-//         }
-//     })
-
-//     circle.addEventListener("click", (e) => {
-//         if(e.target.dataset.mark === "circle"){
-//             domElements.header.removeChild(markerContainer)
-//             return gameBoard.currentPlayer = gameBoard.players[1]
-//         }  
-//     })
-
-// }
-
-
-// function selectSquare (){ 
-//     const squares = document.querySelectorAll(".square")    
-
-//     squares.forEach((square) => {
-//             square.addEventListener("click", (e)=>{
-//                 const action = e.target
-               
-//                 if(!gameBoard.playerTurn){ //player 1
-//                     action.textContent = gameBoard.currentPlayer
-                  
-//                     // gameBoard.board = action.dataset.indexNumber
-                   
-//                     gameBoard.board[0][1] = action.dataset.indexNumber
-//                     console.table(gameBoard.board)
-               
-            
-//                     gameBoard.playerTurn = true 
-                                
-//                 }
-//                 else   { // player 2
-//                     action.textContent = gameBoard.currentPlayer
-//                     console.log(gameBoard.board)
-//                     gameBoard.playerTurn = false
-//                 }  
-//             })
-//     })
-// }
-
-
-// function resetBoard () {
-//     const reset = document.querySelector(".reset")
-//     reset.addEventListener("click", () => {
-//         console.log("Reset")
-//         gameBoard.container.innerHTML = ""
-      
-        
-//     })
-// }
+    return {header, 
+            displayPlayers, 
+            boardContainer, 
+            startGame, 
+            dialog, 
+            playRound,
+            displayP1Score,
+            displayP2Score}
+})();
 
 
 function Player(name, marker, score){
@@ -129,16 +25,14 @@ function Player(name, marker, score){
 }
 
 function displayPlayers(display){
-    const container = document.querySelectorAll(".player-display")
-    container.forEach((contain) => {
+    DOMController.displayPlayers.forEach((contain) => {
         contain.style.display = display
     })
     
 }
 
 const start = (() => {
-    const startGame = document.querySelector(".start");
-    const dialog = document.querySelector("dialog");
+
     const getMarker = [];
 
     const p1Name = document.querySelector("[data-player-one]")
@@ -147,7 +41,11 @@ const start = (() => {
     const p2Name = document.querySelector("[data-player-two]")
     p2Name.addEventListener("input", (e) => {return e.value})
 
-    startGame.addEventListener("click", () => {dialog.showModal()})
+    DOMController.startGame.addEventListener("click", () => {
+        document.querySelector(".game-container").style.display = "flex"
+        DOMController.dialog.showModal()
+        document.querySelector(".header").style.display = "none"
+    })
 
     const markers = document.querySelectorAll("[data-mark]");
     markers.forEach((mark) =>{
@@ -157,14 +55,19 @@ const start = (() => {
         })
     })
 
+    DOMController.playRound.addEventListener("click", () => {
+        console.log("Play again")
+        newRound()
+    })
+    
     const close = document.querySelector(".close");
-    close.addEventListener("click", () => {dialog.close()})
+    close.addEventListener("click", () => {DOMController.dialog.close()})
 
     const start = document.querySelector("form");
     start.addEventListener("submit", () => {
-        // e.preventDefault()
+        
         displayPlayers("block")
-        gameData()
+        displayGameData()
         gameLoader()
         // gameLoader(); this is just an empty f for now
     })
@@ -172,15 +75,11 @@ const start = (() => {
     return {p1Name, p2Name, getMarker}
 })();
 
-
-function gameData(){
- 
+function displayGameData(){
     const displayP1Mark = document.querySelector(".p1-marker");
     const displayP2Mark = document.querySelector(".p2-marker");
-
     const displayP1Name = document.querySelector(".p1-name")
     const displayP2Name = document.querySelector(".p2-name")
-    
     let setMarker;
       
     if(start.getMarker.toString() === "O"){
@@ -195,6 +94,7 @@ function gameData(){
     displayP2Name.textContent = p2.name
     displayP1Mark.textContent = p1.marker
     displayP2Mark.textContent = p2.marker
+    
     return {p1, p2, displayP1Mark, displayP2Mark}
 }
 
@@ -218,95 +118,93 @@ function displayPlayerTurn(currentPlayer){
         p2.style.boxShadow = "none"
     }
 }
-// displayPlayerTurn()
-
 
 function displayWinner(victory){
     const winner = document.querySelector(".display-winner")
     const winnerName = document.querySelector(".winner-name")
     winner.style.display = "flex"
     winnerName.textContent = `${victory} is the winner!`
-  
+    return {winner}
 }
 
+function newRound () { // Starts a new game only keeping the score, player names and markers
+    gameLoader().currentPlayer = true
+    resetBoard()
+    displayWinner().winner.style.display = "none"
+}
 
-
-const gameLoader = () => {
-    const reset = document.querySelector(".reset")
-    reset.addEventListener("click", () => {
-
-        console.log(currentPlayer)
-        currentPlayer = true
-        
-        cells.forEach((cell, index) =>{
-            cell.textContent= ""
+function resetBoard(){ // Clears the gameboard
+    GameBoard.emptyBoard()
+        gameLoader().cells.forEach((cell) =>{
+            cell.textContent = "";
         });
-        
-    })
+}
 
+const gameLoader = () => { // main function creating the board and allowing players to set markers on the board
     const cells = document.querySelectorAll(".square");
     let currentPlayer = true;
-
+    let player1Score = 0
+    let player2Score = 0
     let setMarkToBoard;
 
-    const initGame = () => {
+    const initGameBoard = () => {
         cells.forEach((cell, index) =>{
             cell.setAttribute("data-index-number", index)
             cell.addEventListener("click", cellOnClick)
-           
-            
         });
     }
 
     const cellOnClick = (e) => {
         const cell = e.target
-        console.log(`p mark is  ${start.getMarker}`)
         const p1Marker = start.getMarker
-        const p2Marker = gameData().p2.marker
-        console.log(`p1 mark is  ${p1Marker}`)
-        console.log(`p2 mark is  ${p2Marker}`)
-
-    if(cell.textContent !== p1Marker && cell.textContent !== p2Marker){
-        if (currentPlayer){
-            displayPlayerTurn(currentPlayer)
-            cell.textContent = p1Marker
-            setMarkToBoard = p1Marker
-            currentPlayer = false
-            
-        }
-        else {
-            displayPlayerTurn(currentPlayer)
-            cell.textContent =  p2Marker
-            setMarkToBoard = p2Marker
-            currentPlayer = true;
-            
-        }
-        GameBoard.updateBoard(e.target.dataset.indexNumber, setMarkToBoard)
-        checkWin(setMarkToBoard)
-       
-    }    
-       
+        const p2Marker = displayGameData().p2.marker
+      
+        if(cell.textContent !== p1Marker && cell.textContent !== p2Marker){
+            if (currentPlayer){
+                displayPlayerTurn(currentPlayer)
+                cell.textContent = p1Marker
+                setMarkToBoard = p1Marker
+                currentPlayer = false    
+            }
+            else {
+                displayPlayerTurn(currentPlayer)
+                cell.textContent =  p2Marker
+                setMarkToBoard = p2Marker
+                currentPlayer = true;      
+            }
+            GameBoard.updateBoard(e.target.dataset.indexNumber, setMarkToBoard)
+            checkWin(setMarkToBoard)
+        }        
     }
-  
+    // RESET The entire game.
+    const resetGame = document.querySelector(".reset")
+    resetGame.addEventListener("click", () => {
+        displayWinner().winner.style.display = "none";
+        displayPlayers("none")
+        DOMController.dialog.showModal()
+        DOMController.displayP1Score.textContent = 0
+        DOMController.displayP2Score.textContent = 0
+        player1Score = 0
+        player2Score = 0
+        resetBoard() 
+    })
+    ///////////////
+
     const checkWin = (marker) =>{
         const mark = marker
-        console.log(`mark in checkWin = ${mark}`)
-      
         return winnerArrays.some(win => {
-            const [a,b,c] = win
-            console.log(`GameBoard.getBoard()[a] = ${GameBoard.getBoard()[a] } GameBoard.getBoard()[b] = ${GameBoard.getBoard()[b]} GameBoard.getBoard()[c] = ${GameBoard.getBoard()[c]}`)
-            
+            const [a,b,c] = win 
             if(GameBoard.getBoard()[a] === mark && GameBoard.getBoard()[b] === mark && GameBoard.getBoard()[c] === mark){
-                console.log(`currentPlayer is ${currentPlayer}`)
-                console.log("WINNER")
                 if(mark[0] === "X" || mark[0 === "O"] && currentPlayer === false){
-                    console.log(gameData().p1.name)
-                    return displayWinner(gameData().p1.name)
+                    player1Score += 1
+                    DOMController.displayP1Score.textContent = `Score: ${player1Score}`
+                    return displayWinner(displayGameData().p1.name)
                 }
                 else {
-                    return displayWinner(gameData().p2.name)
-                }
-                
+                    player2Score += 1
+                    DOMController.displayP2Score.textContent = `Score: ${player2Score}`
+                    return displayWinner(displayGameData().p2.name, player2Score)
+                }   
             } 
         })       
     }
@@ -323,100 +221,23 @@ const gameLoader = () => {
         [2,4,6],
         [1,4,7]
     ] 
-
-    
-   
-    return {initGame, currentPlayer}
+    return {initGameBoard, currentPlayer, cells}
 };
 
-const GameBoard = (() => {
-    let boardMatrix =  [
-        ["","",""], 
-        ["","",""],
-        ["","",""]  
-        ];
+const GameBoard = (() => { // contains all the board data
+  
     let board = ["","","","","","","","",""]   
-    
     const getBoard = () => board
-
-
     const updateBoard = (index,  marker) =>{board[index] = marker;}
-    
-    const resetBoard = () => {[
-        ["","",""], 
-        ["","",""],
-        ["","",""]  
-        ];
+    const emptyBoard = () => {
+    board = ["","","","","","","","",""]  
 
     }
-    return { boardMatrix, updateBoard, resetBoard, board, getBoard }
+    return {  updateBoard, emptyBoard, getBoard }
 })();
 
 
-gameLoader().initGame()
-// startGame()
+gameLoader().initGameBoard()
+
  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- // makeBoard.forEach((board) => {
-        
-    //     let index = board.dataset.indexNumber
-    //         board.addEventListener("click", () =>{
-    //             const p1Marker = gameData().p1.marker
-    //             const p2Marker = gameData().p2.marker
-    //             // console.log(`index on click = ${index}`)
-    //             if(board.textContent !== p1Marker && board.textContent !== p2Marker){
-    //                 if (currentPlayer){
-    //                     // insert a function call to change panal to indicate whos go it is on this line.
-    //                     board.textContent = p1Marker;
-    //                     setMarkToBoard = p1Marker
-    //                     // GameBoard.playerScore.push(index)
-    //                     currentPlayer = false
-    //                     displayPlayerTurn()
-    //                     // checkWin(currentPlayer,setMarkToBoard)
-    //                 }
-    //                 else {
-    //                     // <-- insert a function call to change panal to indicate whos go it is on this line.
-    //                     board.textContent = p2Marker
-    //                     setMarkToBoard = p2Marker
-    //                     // GameBoard.playerScore.push(index)
-    //                     currentPlayer = true;
-    //                     displayPlayerTurn()
-    //                     // checkWin(currentPlayer,setMarkToBoard)
-    //                 }
-    //             }
-    //             const getCoordinates = index.split("")
-    //             // console.log(getCoordinates)
-    //             if (getCoordinates[0] === "a") {
-    //                 indexY = "0"
-    //             }
-    //             else if  (getCoordinates[0] === "b"){
-    //                 indexY = "1"
-    //             }
-    //             else if  (getCoordinates[0] === "c"){
-    //                 indexY = "2"
-    //             }
-    //             indexX = getCoordinates[1]
-    //             GameBoard.updateBoard(indexY, indexX , setMarkToBoard)
-    //             // checkWin(currentPlayer,setMarkToBoard) 
-               
-    //         })
-         
-    // })  
